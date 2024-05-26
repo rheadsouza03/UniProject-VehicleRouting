@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import math
 
+import numpy as np
+
 
 def calculate_euclidean_distance(px, py, index1, index2):
 
@@ -15,8 +17,12 @@ def calculate_euclidean_distance(px, py, index1, index2):
     """
 
     # TODO - Implement the euclidean distance function.
+    x_diff = px[index1] - px[index2]
+    y_diff = py[index1] - py[index2]
 
-    return None
+    distance = np.sqrt(x_diff ** 2 + y_diff ** 2)
+
+    return distance
 
 
 def calculate_total_distance(routes, px, py, depot):
