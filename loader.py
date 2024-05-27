@@ -64,7 +64,7 @@ def load_solution(file):
     line = f.readline()
     while line.__contains__("Route"):
         a_route_str = line.split(":")[1].lstrip().rstrip()
-        a_route = np.array(a_route_str.split()).astype(np.int)
+        a_route = np.array(a_route_str.split()).astype(int)
         routes.append(a_route)
         line = f.readline()
 
