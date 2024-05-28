@@ -6,8 +6,8 @@ import loader as loader
 
 def main():
     # Paths to the data and solution files.
-    vrp_file = "data/n32-k5.vrp"  # "data/n80-k10.vrp"
-    sol_file = "data/n32-k5.sol"  # "data/n80-k10.sol"
+    vrp_file = "data/n80-k10.vrp"  # "data/n80-k10.vrp"
+    sol_file = "data/n80-k10.sol"  # "data/n80-k10.sol"
 
     # Loading the VRP data file.
     px, py, demand, capacity, depot = loader.load_data(vrp_file)
@@ -19,10 +19,10 @@ def main():
     utility.visualise_solution(vrp_best_sol, px, py, depot, "Optimal Solution: " + sol_file)
 
     # Executing and visualizing the nearest neighbour VRP heuristic.
-    # nnh_solution = nearest_neighbour_heuristic(px, py, demand, capacity, depot)
-    # nnh_distance = utility.calculate_total_distance(nnh_solution, px, py, depot)
-    # print("Nearest Neighbour VRP Heuristic Distance:", nnh_distance)
-    # utility.visualise_solution(nnh_solution, px, py, depot, "Nearest Neighbour Heuristic: "+vrp_file)
+    nnh_solution = nearest_neighbour_heuristic(px, py, demand, capacity, depot)
+    nnh_distance = utility.calculate_total_distance(nnh_solution, px, py, depot)
+    print("Nearest Neighbour VRP Heuristic Distance:", nnh_distance)
+    utility.visualise_solution(nnh_solution, px, py, depot, "Nearest Neighbour Heuristic: "+vrp_file)
 
     # Executing and visualizing the saving VRP heuristic.
     # Uncomment it to do your assignment!
@@ -30,7 +30,7 @@ def main():
     sh_solution = savings_heuristic(px, py, demand, capacity, depot)
     sh_distance = utility.calculate_total_distance(sh_solution, px, py, depot)
     print("Saving VRP Heuristic Distance:", sh_distance)
-    utility.visualise_solution(sh_solution, px, py, depot, "Savings Heuristic")
+    utility.visualise_solution(sh_solution, px, py, depot, "Savings Heuristic: " + sol_file)
 
 
 def nearest_neighbour_heuristic(px, py, demand, capacity, depot):
@@ -107,14 +107,34 @@ def savings_heuristic(px, py, demand, capacity, depot):
     savings = {}
 
     # Compute the savings for each possible merge
-    for i in range(len(routes) - 1):
-        distance = (utility.calculate_euclidean_distance(px, py, routes[i][0], depot) +
-                    utility.calculate_euclidean_distance(px, py, depot, routes[i + 1][0]) -
-                    utility.calculate_euclidean_distance(px, py, routes[i][0], routes[i + 1][0]))
+    for i in range(int(len(routes)/2)):
+        for j in range(int(len(routes)/2), len(routes)):
+            # Ensures the 1st and 2nd indices are not the same node
+            if i == j:
+                continue
 
-        savings[(routes[i][0], routes[i + 1][0])] = distance
-    print(savings)
+            # Calculate the savings
+            distance = (utility.calculate_euclidean_distance(px, py, routes[i][0], depot) +
+                        utility.calculate_euclidean_distance(px, py, depot, routes[j][0]) -
+                        utility.calculate_euclidean_distance(px, py, routes[i][0], routes[j][0]))
+            savings[(routes[i][0], routes[j][0])] = distance
 
+    # Sort savings in descending order
+    sorted_savings = sorted(savings.items(), key=lambda x: x[1], reverse=True)
+
+    # Merge routes based on savings
+    for (i, j), saving in sorted_savings:
+        # Check if nodes i and j are not already in the same route
+        if not any(i in route and j in route for route in routes):
+            # Find the routes containing i and j
+            route_i = next(route for route in routes if i in route)
+            route_j = next(route for route in routes if j in route)
+
+            # Check capacity is not exceeded
+            if utility.is_total_capacity_valid([route_i, route_j], demand, capacity):
+                # Merge route_j into route_i
+                route_i.extend(route_j)
+                routes.remove(route_j)
 
 
     return routes
