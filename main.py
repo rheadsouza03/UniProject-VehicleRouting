@@ -6,8 +6,8 @@ import loader as loader
 
 def main():
     # Paths to the data and solution files.
-    vrp_file = "data/n80-k10.vrp"  # "data/n80-k10.vrp"
-    sol_file = "data/n80-k10.sol"  # "data/n80-k10.sol"
+    vrp_file = "data/n32-k5.vrp"  # "data/n80-k10.vrp"
+    sol_file = "data/n32-k5.sol"  # "data/n80-k10.sol"
 
     # Loading the VRP data file.
     px, py, demand, capacity, depot = loader.load_data(vrp_file)

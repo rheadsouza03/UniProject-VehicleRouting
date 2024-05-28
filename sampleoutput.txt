@@ -1,0 +1,9 @@
+File: data/n80-k10.vrp
+Best VRP Distance: 1766.4999433704209
+Nearest Neighbour VRP Heuristic Distance: 2255.461886842153
+Saving VRP Heuristic Distance: 2079.9687235939286
+
+File: data/n32-k5.vrp
+Best VRP Distance: 787.8082774366645
+Nearest Neighbour VRP Heuristic Distance: 1146.3996317253793
+Saving VRP Heuristic Distance: 938.3474837587406
