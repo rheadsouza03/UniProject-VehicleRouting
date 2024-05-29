@@ -11,3 +11,4 @@ If you want to view the other data files, then edit the following with the given
     sol_file = "data/n80-k10.sol"  # "data/n80-k10.sol"
 
 Section in main.py - main().
+Note: The `.idea` file only contains the gitignore file.
