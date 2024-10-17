@@ -99,8 +99,7 @@ def savings_heuristic(px, py, demand, capacity, depot):
     :param depot: Depot.
     :return: List of vehicle routes (tours).
     """
-
-    # TODO - Implement the Saving Heuristic to generate VRP solutions.
+    
     # Initialise the route with the depot
     routes = [[i] for i in range(len(px))]
     routes.remove([depot])
