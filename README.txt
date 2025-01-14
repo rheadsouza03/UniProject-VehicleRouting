@@ -9,6 +9,3 @@ If you want to view the other data files, then edit the following with the given
     # Paths to the data and solution files.
     vrp_file = "data/n80-k10.vrp"  # "data/n80-k10.vrp"
     sol_file = "data/n80-k10.sol"  # "data/n80-k10.sol"
-
-Section in main.py - main().
-Note: The `.idea` file only contains the gitignore file.
